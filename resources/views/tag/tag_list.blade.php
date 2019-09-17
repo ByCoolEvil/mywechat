@@ -28,6 +28,9 @@
             <td>
                 <a href="{{url('/tag/tag_delete')}}?id={{$v['id']}}">删除</a> |
                 <a href="{{url('/tag/tag_update')}}?id={{$v['id']}}">修改</a> |
+                <a href="{{url('/tag/tag_openid_list')}}?tagid={{$v['id']}}">粉丝列表</a> |
+                <a href="{{url('/tag/get_user_list')}}?tagid={{$v['id']}}">粉丝打标签</a> |
+                <a href="{{url('/tag/push_tag_message')}}?tagid={{$v['id']}}">推送消息</a>
             </td>
         </tr>
         @endforeach

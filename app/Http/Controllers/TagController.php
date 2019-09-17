@@ -51,4 +51,31 @@ class TagController extends Controller
         $result = json_decode($re,1);
         dd($result);
     }
+    // 粉丝列表
+    public function tag_openid_list(Request $request)
+    {
+        $req = $request->all();
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token='.$this->tools->get_wechat_access_token();
+        $data = [
+            'tagid' => $req['tagid'],
+            'next_openid' => ''
+        ];
+        $re = $this->tools->curl_post($url,json_encode($data));
+        $result = json_decode($re,1);
+        dd($result);
+    }
+    public function tag_openid(Request $request)
+    {
+        $req = $request->all();
+        $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='.$this->tools->get_wechat_access_token();
+        $data = [
+            'openid_list'=>$req['openid_list'],
+            'tagid'=>$req['tagid']
+        ];
+        $re = $this->tools->curl_post($url,json_encode($data));
+        $result = json_decode($re,1);
+        dd($result);
+    }
+
+
 }

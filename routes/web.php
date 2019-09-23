@@ -48,6 +48,11 @@ Route::get('/liuyan/login','LiuYanController@login');//页面登录
 Route::post('/liuyan/do_login','LiuYanController@do_login');//执行页面登录
 Route::get('/liuyan/do_del','LiuYanController@do_del');//删除留言
 
+Route::post('/menu/create_menu','MenuController@create_menu'); //创建菜单
+Route::get('/menu/menu_list','MenuController@menu_list'); //菜单列表
+Route::get('/menu/load_menu','MenuController@load_menu'); //刷新菜单
+Route::get('/menu/del_menu','MenuController@del_menu'); //删除菜单
+
 
 //调用登录中间件
 Route::group(['middleware'=>['login']],function(){

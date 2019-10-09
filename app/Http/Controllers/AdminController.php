@@ -46,20 +46,20 @@ class AdminController extends Controller
      */
     public function send(Request $request)
     {
-        #链接reids
+        //链接reids
         $redis = new \Redis();
         $redis->connect('127.0.0.1','6379');
         // 接收用户名和密码
         $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->tools->get_wechat_access_token();
         $username = $request->username;
         $password = $request->password;
-        #获取token
+        //获取token
         $token = $this->tools->get_wechat_access_token();
-        #获取用户信息
+        //获取用户信息
         $userinfo = DB::table('login')->where(['username'=>$username])->first();
         $userinfo = collect($userinfo)->toArray();
 
-        $code = rand(1000,9999);  #验证码
+        $code = rand(1000,9999);  // 验证码
         $redis->setex('code',180,$code);   #存redis
         $time = time();
         $data = [
@@ -76,7 +76,7 @@ class AdminController extends Controller
                     'color' => '',
                 ],
                 'time' => [
-                    'value' => $time,
+                    'value' => date('Y-m-d:H:i:s',time()),
                     'color' => '',
                 ],
             ],
@@ -93,14 +93,14 @@ class AdminController extends Controller
     /*
      * 绑定账号菜单
      */
-    public function bangding()
+    public function bang()
     {
-        return view('admin/bangding');
+        return view('/admin/bang');
     }
     /*
      * 执行绑定账号菜单
      */
-    public function do_bangding(Request $request)
+    public function do_bang(Request $request)
     {
         $redirect_uri = 'http://www.mywechat.com/admin/code';
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WECHAT_APPID').'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
@@ -114,9 +114,6 @@ class AdminController extends Controller
         $req = $request->all();
         $result = file_get_contents('https://api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET').'&code='.$req['code'].'&grant_type=authorization_code');
         $re = json_decode($result,1);
-
-
-
     }
     /*
      * 后台首页

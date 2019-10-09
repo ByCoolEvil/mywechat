@@ -68,8 +68,8 @@ Route::prefix('/admin')->group(function(){
     Route::any('/do_login','AdminController@do_login');// 执行登录
     Route::any('/send','AdminController@send');// 发送验证码
     Route::any('/a','AdminController@a');// Bootstrap 网站样式
-    Route::get('/bangding','AdminController@bangding');// 绑定账号菜单
-    Route::get('/do_bangding','AdminController@do_bangding');// 执行绑定账号菜单
+    Route::get('/bang','AdminController@bang');// 绑定账号菜单
+    Route::get('/do_bang','AdminController@do_bang');// 执行绑定账号菜单
     Route::get('/code','AdminController@code'); //获取code
 
 });

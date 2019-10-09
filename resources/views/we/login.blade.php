@@ -9,15 +9,15 @@
 </head>
 <body>
 <center>
-        用户名：<input type="text"><br/>
-        密码：<input type="password"><br/>
-        第三方登录：<button id="but" type="button">微信授权登录</button>
+    用户名：<input type="text"><br/>
+    密码：<input type="password"><br/>
+    第三方登录：<button id="but" type="button">微信授权登录</button>
 </center>
 <script src="{{asset('mstore/js/jquery.min.js')}}"></script>
 <script>
     $(function(){
         $('#but').click(function(){
-            window.location.href="{{url('we/wechat_login')}}";
+           window.location.href="{{url('we/wechat_login')}}";
         });
     });
 </script>

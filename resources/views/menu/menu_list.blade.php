@@ -12,14 +12,14 @@
     <h2>创建菜单</h2>
     <form action="{{'/menu/create_menu'}}" method="post"><br/>
         @csrf
-        一级菜单：<input type="text" name="name1"><br/>
-        二级菜单：<input type="text" name="name2"><br/>
+        一级菜单：<input type="text" name="name1"><br/><br/>
+        二级菜单：<input type="text" name="name2"><br/><br/>
         菜单类型[click/view]：
         <select name="type" id="">
             <option value="1">click</option>
             <option value="2">view</option>
-        </select><br/>
-        事件处理：<input type="text" name="event_value"><br/>
+        </select><br/><br/>
+        事件处理：<input type="text" name="event_value"><br/><br/>
         <input type="submit" value="提交">
     </form>
 

@@ -15,6 +15,27 @@ class WechatController extends Controller
         $this->tools = $tools;
     }
 
+    public function user_weixin($openid)
+    {
+        $access_token = $this->tools->get_access_token();
+        $wechat_user = file_get_contents("https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN");
+        $user_info = json_decode($wechat_user,1);
+        return $user_info;
+    }
+
+//    jssdk获取地理位置
+    public function location(Request $request)
+    {
+        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $jsapi_ticket = $this->tools->get_wechat_jsapi_ticket();
+        $timestamp = time();
+        $nonceStr = rand(1000,9999).'suibian';
+        $sign_str = 'jsapi_ticket='.$jsapi_ticket.'&noncestr='.$nonceStr.'&timestamp='.$timestamp.'&url='.$url;
+        $signature = sha1($sign_str);
+
+        return view('wechat/location',['nonceStr'=>$nonceStr,'timestamp'=>$timestamp,'signature'=>$signature]);
+    }
+
     /*
      * 调用频次清0
      */
@@ -148,7 +169,7 @@ class WechatController extends Controller
             $last_info[$k]['nickname'] = $user['nickname'];
             $last_info[$k]['openid'] = $v;
         }
-//        dd($last_info);
+        dd($last_info);
 
         return view('wechat.userList',['info'=>$re['data']['openid']]);
     }

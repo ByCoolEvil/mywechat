@@ -17,3 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('post_test','WechatController@post_test');
+
+Route::any('/event/event','EventController@event'); //接收微信发送的消息

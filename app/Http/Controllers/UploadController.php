@@ -55,7 +55,7 @@ class UploadController extends Controller
             $path = realpath('./storage/'.$path);
 //            dd($path);
 
-            $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->get_wechat_access_token().'&type='.$source_type;
+            $url = 'https://Api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->get_wechat_access_token().'&type='.$source_type;
             $result = $this->guzzle_upload($url,$path,$client);
             $re = json_decode($result,1);
 
@@ -95,7 +95,7 @@ class UploadController extends Controller
         }else{
 //            不存在
 //            获取Access_token接口
-            $result = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
+            $result = file_get_contents('https://Api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
             $re = json_decode($result,1);
             $redis->set($access_token_key,$re['access_token'],$re['expires_in']); //加入缓存
             return $re['access_token'];

@@ -18,7 +18,7 @@ class WechatController extends Controller
     public function user_weixin($openid)
     {
         $access_token = $this->tools->get_access_token();
-        $wechat_user = file_get_contents("https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN");
+        $wechat_user = file_get_contents("https://Api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN");
         $user_info = json_decode($wechat_user,1);
         return $user_info;
     }
@@ -40,7 +40,7 @@ class WechatController extends Controller
      * 调用频次清0
      */
     public function clear_api(){
-        $url = 'https://api.weixin.qq.com/cgi-bin/clear_quota?access_token='.$this->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/clear_quota?access_token='.$this->get_wechat_access_token();
         $data = ['appid'=>env('WECHAT_APPID')];
         $this->curl_post($url,json_encode($data));
     }
@@ -64,7 +64,7 @@ class WechatController extends Controller
         $pre_page = $page - 1;
         $pre_page <= 0 && $pre_page = 1;
         $next_page = $page + 1;
-        $url = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token='.$this->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/material/batchget_material?access_token='.$this->get_wechat_access_token();
         $data = [
             'type' =>$source_type,
             'offset' => $page == 1 ? 0 : ($page - 1) * 20,
@@ -93,7 +93,7 @@ class WechatController extends Controller
         //$media_id = 'dcgUiQ4LgcdYRovlZqP88RB3GUc9kszTy771IOSadSM'; //音频
         //$media_id = 'dcgUiQ4LgcdYRovlZqP88dUuf1H6G4Z84rdYXuCmj6s'; //视频
         $media_id = $source_info->media_id;
-        $url = 'https://api.weixin.qq.com/cgi-bin/material/get_material?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/material/get_material?access_token='.$this->tools->get_wechat_access_token();
         $re = $this->tools->curl_post($url,json_encode(['media_id'=>$media_id]));
         if($source_type != 'video'){
             Storage::put('wechat/'.$source_type.'/'.$source_info->file_name, $re);
@@ -159,12 +159,12 @@ class WechatController extends Controller
     public function get_user_list()
     {
 //        获取用户列表接口
-        $result = file_get_contents('https://api.weixin.qq.com/cgi-bin/user/get?access_token='.$this->get_wechat_access_token().'&next_openid=');
+        $result = file_get_contents('https://Api.weixin.qq.com/cgi-bin/user/get?access_token='.$this->get_wechat_access_token().'&next_openid=');
         $re = json_decode($result,1);
         $last_info = [];
         foreach($re['data']['openid'] as $k=>$v){
 //            获取用户基本信息接口
-            $user_info = file_get_contents('https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->get_wechat_access_token().'&openid='.$v.'&lang=zh_CN');
+            $user_info = file_get_contents('https://Api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->get_wechat_access_token().'&openid='.$v.'&lang=zh_CN');
             $user = json_decode($user_info,1);
             $last_info[$k]['nickname'] = $user['nickname'];
             $last_info[$k]['openid'] = $v;
@@ -177,7 +177,7 @@ class WechatController extends Controller
     public function push_template_message()
     {
         $openid = 'ofv_zwfA4aRgwzVxwa1ScfWFkNPU';
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->get_wechat_access_token();
         $data = [
             'touser'=>$openid,
             'template_id'=>'9P4CVdJStkHtkXUybmbQBm7dUPCv1qi0MbFSC4MM4fQ',
@@ -221,7 +221,7 @@ class WechatController extends Controller
         }else{
 //            不存在
 //            获取Access_token接口
-            $result = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
+            $result = file_get_contents('https://Api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
             $re = json_decode($result,1);
             $redis->set($access_token_key,$re['access_token'],$re['expires_in']); //加入缓存
             return $re['access_token'];

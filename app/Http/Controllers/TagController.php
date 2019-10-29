@@ -27,7 +27,7 @@ class TagController extends Controller
                 'name'=>$req['tag_name']
             ]
         ];
-        $url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/tags/create?access_token='.$this->tools->get_wechat_access_token();
         $re = $this->tools->curl_post($url,json_encode($data,JSON_UNESCAPED_UNICODE));
         $result = json_decode($re,1);
         dd($result);
@@ -35,7 +35,7 @@ class TagController extends Controller
     // 标签列表
     public function tag_list()
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/tags/get?access_token='.$this->tools->get_wechat_access_token();
         $re = file_get_contents($url);
         $result = json_decode($re,1);
         return view('tag/tag_list',['info'=>$result['tags']]);
@@ -43,7 +43,7 @@ class TagController extends Controller
     // 删除标签
     public function tag_delete(Request $request)
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/tags/delete?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/tags/delete?access_token='.$this->tools->get_wechat_access_token();
         $data = [
             'tag' => ['id'=>$request->all()['id']]
         ];
@@ -55,7 +55,7 @@ class TagController extends Controller
     public function tag_openid_list(Request $request)
     {
         $req = $request->all();
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/user/tag/get?access_token='.$this->tools->get_wechat_access_token();
         $data = [
             'tagid' => $req['tagid'],
             'next_openid' => ''
@@ -67,7 +67,7 @@ class TagController extends Controller
     public function tag_openid(Request $request)
     {
         $req = $request->all();
-        $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='.$this->tools->get_wechat_access_token();
         $data = [
             'openid_list'=>$req['openid_list'],
             'tagid'=>$req['tagid']

@@ -45,7 +45,9 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'.DIRECTORY_SEPARATOR.'public'),
+//            'root' => storage_path('app'.DIRECTORY_SEPARATOR.'public'),
+//            public_path返回public的绝对路径
+            'root' => public_path('app'),
         ],
 
         'public' => [

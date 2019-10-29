@@ -85,7 +85,7 @@ class MenuController extends Controller
             }
             $data['button'][] = $arr;
         }
-        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->tools->get_wechat_access_token();
         /*$data = [
             'button'=> [
                 [

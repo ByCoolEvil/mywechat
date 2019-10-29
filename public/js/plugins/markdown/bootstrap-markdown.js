@@ -1410,7 +1410,7 @@
     }
 
     $(document)
-        .on('click.markdown.data-api', '[data-provide="markdown-editable"]', function (e) {
+        .on('click.markdown.data-Api', '[data-provide="markdown-editable"]', function (e) {
             initMarkdown($(this))
             e.preventDefault()
         })

@@ -57,7 +57,7 @@ class Tools{
      */
     public function wechat_user_info($openid){
         $access_token = $this->get_access_token();
-        $wechat_user = file_get_contents("https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN");
+        $wechat_user = file_get_contents("https://Api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN");
         $user_info = json_decode($wechat_user,1);
         return $user_info;
     }
@@ -71,7 +71,7 @@ class Tools{
             return $this->redis->get($access_token_key);
         }else{
             //不存在
-            $result = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
+            $result = file_get_contents('https://Api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET'));
             $re = json_decode($result,1);
             $this->redis->set($access_token_key,$re['access_token'],$re['expires_in']);  //加入缓存
             return $re['access_token'];
@@ -87,7 +87,7 @@ class Tools{
             return $this->redis->get($access_api_key);
         }else{
             //不存在
-            $result = file_get_contents('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$this->get_wechat_access_token().'&type=jsapi');
+            $result = file_get_contents('https://Api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$this->get_wechat_access_token().'&type=jsapi');
             $re = json_decode($result,1);
             $this->redis->set($access_api_key,$re['ticket'],$re['expires_in']); // 加入缓存
             return $re['ticket'];

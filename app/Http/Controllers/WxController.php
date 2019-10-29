@@ -26,11 +26,11 @@ class WxController extends Controller
     public function code(Request $request)
     {
         $req = $request->all();
-        $result = file_get_contents('https://api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET').'&code='.$req['code'].'&grant_type=authorization_code');
+        $result = file_get_contents('https://Api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET').'&code='.$req['code'].'&grant_type=authorization_code');
         $re = json_decode($result,1);
 //        dd($re);
 //        获取微信信息
-        $user_info = file_get_contents('https://api.weixin.qq.com/sns/userinfo?access_token='.$re['access_token'].'&openid='.$re['openid'].'&lang=zh_CN');
+        $user_info = file_get_contents('https://Api.weixin.qq.com/sns/userinfo?access_token='.$re['access_token'].'&openid='.$re['openid'].'&lang=zh_CN');
         $wechat_user_info = json_decode($user_info,1);
         $openid = $re['openid'];
         $wechat_info = DB::connection('mysql_wechat')->table('user_wechat')->where(['openid'=>$openid])->first();

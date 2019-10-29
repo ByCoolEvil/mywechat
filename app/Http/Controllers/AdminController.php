@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Model\Login;
+use App\Model\Wechat;
 use App\Tools\Tools;
 use Illuminate\Support\Facades\Redis;
 
-class AdminController extends Controller
+class  AdminController extends Controller
 {
     public $tools;
     public function __construct(Tools $tools)
@@ -50,7 +52,7 @@ class AdminController extends Controller
         $redis = new \Redis();
         $redis->connect('127.0.0.1','6379');
         // 接收用户名和密码
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->tools->get_wechat_access_token();
+        $url = 'https://Api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->tools->get_wechat_access_token();
         $username = $request->username;
         $password = $request->password;
         //获取token
@@ -102,17 +104,23 @@ class AdminController extends Controller
      */
     public function do_bang(Request $request)
     {
-        $redirect_uri = 'http://www.mywechat.com/admin/code';
-        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WECHAT_APPID').'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-        header('Location:'.$url);
+        $username = request('username');
+        $password = request('password');
+        $adminInfo = Login::where(['username'=>$username,'password'=>$password])->first();
+        if(!$adminInfo){
+            // 用户名或密码错误
+            echo json_encode(['ret'=>0,'msg'=>'用户名或密码错误']);
+            die;
+        }
     }
+
     /*
      * 接收code
      */
     public function code(Request $request)
     {
         $req = $request->all();
-        $result = file_get_contents('https://api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET').'&code='.$req['code'].'&grant_type=authorization_code');
+        $result = file_get_contents('https://Api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WECHAT_APPID').'&secret='.env('WECHAT_APPSECRET').'&code='.$req['code'].'&grant_type=authorization_code');
         $re = json_decode($result,1);
     }
     /*
